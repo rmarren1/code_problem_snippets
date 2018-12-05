@@ -9,7 +9,7 @@ def add_one(D):
     """
     D[-1] += 1
     carry = 0
-    for i in range(len(D) - 1, 0, -1):
+    for i in reversed(range(1, len(D))):
         D[i] += carry
         carry = D[i] // 10
         D[i] %= 10
