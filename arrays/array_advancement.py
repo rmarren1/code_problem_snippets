@@ -10,19 +10,29 @@ def can_advance(A):
 
     return whether or not you can move to the end of the array.
 
-    0 1 2 3
-    2 0 1 0
+    visited = set()
+    queue = [0]
+    while queue:
+        curr = queue.pop()
+        visited.add(curr)
+        for i in range(curr, curr + A[curr]):
+            if i not in visited and i < len(A):
+                queue.insert(0, A[i])
+    return (len(A) - 1) in visited
 
+
+    2 0 3 0 0 4 1 2 3 4 
+    X X X 0 0 0 0 0 0 0
     """
-    last_position = len(A) - 1
-    num_elements = len(A)
-    if num_elements == 1 and A[0] > 0:
-        return True
-    for i in range(1, num_elements):
-        if A[last_position - i] >= i:
-            if can_advance(A[:last_position - i + 1]):
-                return True
-    return False
+    visited = set()
+    queue = [0] if A[0] else []
+    while queue:
+        curr = queue.pop()
+        visited.add(curr)
+        for i in range(curr + 1, curr + 1 + A[curr]):
+            if i not in visited and i < len(A):
+                queue.insert(0, i)
+    return (len(A) - 1) in visited
 
 assert     can_advance([2, 0, 1, 1])
 assert     can_advance([2])
