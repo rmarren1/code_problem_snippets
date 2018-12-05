@@ -32,10 +32,12 @@ def can_advance2(A):
     """
     max_reached_so_far = 0
     i = 0
-    while i <= max_reached_so_far and i < len(A) - 1:
+    if len(A) == 1:
+        return bool(A[0])
+    while i <= max_reached_so_far and max_reached_so_far < len(A) - 1:
         max_reached_so_far = max(A[i] + i, max_reached_so_far)
         i += 1
-    return A[0] and i == len(A) - 1 and i <= max_reached_so_far
+    return max_reached_so_far >= len(A) - 1
 
 assert     can_advance([2, 0, 1, 1])
 assert     can_advance([2])
