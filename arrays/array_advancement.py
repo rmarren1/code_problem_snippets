@@ -10,19 +10,6 @@ def can_advance(A):
 
     return whether or not you can move to the end of the array.
 
-    visited = set()
-    queue = [0]
-    while queue:
-        curr = queue.pop()
-        visited.add(curr)
-        for i in range(curr, curr + A[curr]):
-            if i not in visited and i < len(A):
-                queue.insert(0, A[i])
-    return (len(A) - 1) in visited
-
-
-    2 0 3 0 0 4 1 2 3 4 
-    X X X 0 0 0 0 0 0 0
     """
     visited = set()
     queue = [0] if A[0] else []
@@ -34,6 +21,22 @@ def can_advance(A):
                 queue.insert(0, i)
     return (len(A) - 1) in visited
 
+
+def can_advance2(A):
+    """
+    A different solution to the above problem. I think that the searching algorithm was overkill.
+
+    2 0 4 0 1
+    2 2 6 6 6
+
+    """
+    max_reached_so_far = 0
+    i = 0
+    while i <= max_reached_so_far and i < len(A) - 1:
+        max_reached_so_far = max(A[i] + i, max_reached_so_far)
+        i += 1
+    return A[0] and i == len(A) - 1 and i <= max_reached_so_far
+
 assert     can_advance([2, 0, 1, 1])
 assert     can_advance([2])
 assert     can_advance([10, 0, 0, 0, 0, 0])
@@ -43,3 +46,13 @@ assert not can_advance([2, 0, 0, 1])
 assert not can_advance([0, 6, 0, 1])
 assert not can_advance([0])
 assert not can_advance([0] + [5, 4, 3, 2, 1] * 100)
+
+assert     can_advance2([2, 0, 1, 1])
+assert     can_advance2([2])
+assert     can_advance2([10, 0, 0, 0, 0, 0])
+assert     can_advance2([1, 1, 1, 1, 1, 1])
+assert     can_advance2([2, 0, 2, 0, 2, 0])
+assert not can_advance2([2, 0, 0, 1])
+assert not can_advance2([0, 6, 0, 1])
+assert not can_advance2([0])
+assert not can_advance2([0] + [5, 4, 3, 2, 1] * 100)
